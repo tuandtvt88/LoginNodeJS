@@ -1,0 +1,36 @@
+1.Mở thư đúng thư mục cần up trong cmd phần mềm lập trình và chạy các dòng lệnh sau:
+git init
+git add .
+git commit -m "bt"
+git config --global user.name "tuandtvt88"
+git remote add origin https://github.com/tuandtvt88/FunctionComponentProduct.git
+git push origin master
+
+
+2.Khi có sự thay đổi về code muốn cập nhật lên GitHub thì chạy câu lệnh:
+git add .
+git commit -m "bt"
+git push origin master
+
+
+3. trường hợp báo lỗi:
+PS C:\FULLSTACK\Reactjs> git init
+PS C:\FULLSTACK\Reactjs> git commit -m "lan1"
+[master c20888c] lan1
+ 2 files changed, 24423 insertions(+), 20 deletions(-)
+ create mode 100644 "c\303\240i \304\221\341\272\267t.txt"
+PS C:\FULLSTACK\Reactjs> git config --global user.name "tuandtvt88"
+PS C:\FULLSTACK\Reactjs> git remote add origin https://github.com/tuandtvt88/NodeJSThuchanh.git
+error: remote origin already exists.
+Cách xử lý:
+Kiểm tra xem remote đã được thêm chưa:
+Chạy lệnh sau để kiểm tra:
+git remote -v
+
+Xóa remote cũ
+Sử dụng lệnh sau để xóa remote origin hiện tại:
+git remote remove origin
+
+Thêm remote mới
+Thêm remote repository mới với URL của bạn:
+git remote add origin https://github.com/tuandtvt88/ThucHanhNodeJS.git
