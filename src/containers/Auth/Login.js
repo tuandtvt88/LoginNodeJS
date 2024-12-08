@@ -6,6 +6,9 @@ import * as actions from "../../store/actions";
 
 import './Login.scss';
 
+import { FormattedMessage } from 'react-intl';
+import { handleLoginApi } from '../../services/userService';
+
 
 
 class Login extends Component {
@@ -14,7 +17,8 @@ class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            isShowPassword:false
+            isShowPassword: false,
+            errorMessage: ''
         }
 
     }
@@ -23,19 +27,30 @@ class Login extends Component {
         this.setState({
             username: event.target.value
         })
-        
+
     }
     handleOnChangePassword = (event) => {
         this.setState({
             password: event.target.value
         })
-        
+
     }
-    handleLogin = () => {
-        console.log('username: ',this.state.username,'password: ',this.state.password)
-        console.log('all state ', this.state)
+    handleLogin = async () => {
+        this.setState({
+            errorMessage: ''
+        })
+        try {
+            await handleLoginApi(this.state.username, this.state.password)
+        } catch (error) {
+            // console.log(e);
+            console.log('hoilamgi', error.response);
+
+            // this.setState({
+            //     errMessage: e.message
+            // })
+        }
     }
-    handleShowHidePassword =() =>{
+    handleShowHidePassword = () => {
         this.setState({
             isShowPassword: !this.state.isShowPassword
         })
@@ -55,19 +70,22 @@ class Login extends Component {
                         <div className='col-12 form-group login-input'>
                             <label>Password:</label>
                             <div className='custom-input-password'>
-                            <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'} placeholder='Enter your password'
-                                value={this.state.password}
-                                onChange={(event) => this.handleOnChangePassword(event)}></input>
-                                
+                                <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'} placeholder='Enter your password'
+                                    value={this.state.password}
+                                    onChange={(event) => this.handleOnChangePassword(event)}></input>
+
                                 <span
-                                    onClick={() =>{this.handleShowHidePassword()}}>
+                                    onClick={() => { this.handleShowHidePassword() }}>
                                     <i class={this.state.isShowPassword ? 'far fa-eye' : 'far fa-eye-slash'}></i></span>
-                                
+
                             </div>
 
                         </div>
+                        <div className='col-12' style={{ color: 'red' }}>
+                            {this.state.errorMessage}
+                        </div>
                         <div className='col-12'>
-                            <button className='btn-login' onClick={() =>{this.handleLogin()}}>Login</button>
+                            <button className='btn-login' onClick={() => { this.handleLogin() }}>Login</button>
                         </div>
 
                         <div className='col-12'>
