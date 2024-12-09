@@ -40,14 +40,30 @@ class Login extends Component {
             errorMessage: ''
         })
         try {
-            await handleLoginApi(this.state.username, this.state.password)
+            let data = await handleLoginApi(this.state.username, this.state.password);
+            if (data && data.errCode !== 0) {
+                this.setState({
+                    errMessage: data.message
+                })
+            }
+            if (data && data.errCode === 0) {
+                //todo
+
+                console.log('login succeeds')
+            }
+
         } catch (error) {
-            // console.log(e);
+            if (error.response) {
+                if (error.response.data) {
+
+                    this.setState({
+                        errMessage: error.response.data.message
+                    })
+                }
+            }
+
             console.log('hoilamgi', error.response);
 
-            // this.setState({
-            //     errMessage: e.message
-            // })
         }
     }
     handleShowHidePassword = () => {
