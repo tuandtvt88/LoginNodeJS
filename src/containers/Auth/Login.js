@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from "connected-react-router";
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import * as actions from "../../store/actions";
 
 import './Login.scss';
 
 import { FormattedMessage } from 'react-intl';
 import { handleLoginApi } from '../../services/userService';
-
+toast.configure();
 
 
 class Login extends Component {
@@ -43,12 +46,15 @@ class Login extends Component {
             let data = await handleLoginApi(this.state.username, this.state.password);
             if (data && data.errCode !== 0) {
                 this.setState({
-                    errMessage: data.message
+                    errorMessage: data.message
                 })
             }
             if (data && data.errCode === 0) {
-                //todo
-
+                this.props.userLoginSuccess(data.user)
+                toast.success('Login succeeded!', {
+                    position: toast.POSITION.TOP_RIGHT_CENTER, //Hiện dòng thông báo login thành công
+                    autoClose: 1000
+                });
                 console.log('login succeeds')
             }
 
@@ -130,8 +136,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
-        adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
-        adminLoginFail: () => dispatch(actions.adminLoginFail()),
+        // userLoginFail: () => dispatch(actions.adminLoginFail()),
+        userLoginSuccess: (userInfor) => dispatch(actions.userLoginSuccess(userInfor))
     };
 };
 
